@@ -18,7 +18,7 @@ typedef struct _jogo
    int numPersonagem;
 }Jogo;
 
-void cadastrarNovoJogo(){ // para o usuario cadastrar novo jogo 
+Jogo cadastrarNovoJogo(){ // para o usuario cadastrar novo jogo 
     Jogo novoJogo;
     int numPersonagens = 0; // igual a 0 pq nao existe nenhum personagem cadastrado ainda
     printf("Digite o nome do jogo");
@@ -28,8 +28,9 @@ void cadastrarNovoJogo(){ // para o usuario cadastrar novo jogo
     printf("Digite o nome da categoria");
     scanf(" %[^\n]s", novoJogo.categoria);
     printf("\n\n");
+    return novoJogo;
 }
-void cadastrarNovoPersonagem(){ // cadastrar um novo personagem
+Personagem cadastrarNovoPersonagem(){ // cadastrar um novo personagem
     Personagem personagens;
     printf("Digite o nome do personagem");
     scanf(" %[^\n]s", personagens.nomeDoPersonagem);
@@ -38,6 +39,7 @@ void cadastrarNovoPersonagem(){ // cadastrar um novo personagem
     printf("Digite o genero do personagem");
     scanf(" %[^\n]s", personagens.genero);
     scanf("\n\n");
+    return personagens;
 }
 void editarJogo(Jogo jogos[], int numDoJogo){
     char nomeDoJogo[50];
@@ -60,7 +62,7 @@ void editarJogo(Jogo jogos[], int numDoJogo){
                 break;
             case 2:
             printf("Digite o ano de lancamento\n");
-            scanf(" %[^\n]s", jogos[i].anoDeLancamento);
+            scanf("%d", jogos[i].anoDeLancamento);
                 break;
             case 3:
             printf("Digite a categoria do jogo\n");
@@ -78,8 +80,8 @@ void editarPersonagem(Personagem personagens[], int numPersonagem){
     int i, opcao;
 
     printf("Digite o nome do personagem");
-    scanf(" %[^\n]s", nomeDoPersonagem);
-    for(i=0; i<nomeDoPersonagem, i++){
+    scanf(" %[^\n]s",  nomeDoPersonagem);
+    for(i=0; i < nomeDoPersonagem; i++){
         if(strcasecmp(nomeDoPersonagem, personagens[i].nomeDoPersonagem)==0){
             printf(" 1 para editar o nome do personagem\n");
             printf(" 2 para editar idade\n");
@@ -93,7 +95,7 @@ void editarPersonagem(Personagem personagens[], int numPersonagem){
                 break;
             case 2:
             printf("Digite a idade do personagem\n");
-            scanf(" %[^\n]s", personagens[i].idade);
+            scanf("%d", personagens[i].idade);
                 break;
             case 3:
             printf("Digite o genero do personagem\n");
@@ -162,9 +164,8 @@ void excluirPersonagem(Personagem personagens[], int numPersonagem){
 
 int main () {
     Jogo jogos[100];
-    Personagem personagens[100];
     int numDoJogo = 0;
-    int numPersonagem = 0;
+    int posJogo;
     int opcao;
     while (1)
     {
@@ -176,38 +177,42 @@ int main () {
     printf(" 6 para editar um personagem\n");
     printf(" 7 para listar jogos\n");
     printf(" 8 para listar personagem\n");
-    printf(" 9 voltar ao menu\n");
     scanf("%d", &opcao);
     switch (opcao)
     {
-    case 1:
+    case 1: 
     jogos[numDoJogo] = cadastrarNovoJogo(); numDoJogo++;
         break;
     case 2:
-    excluirJogo(jogos, numDoJogo); numDoJogo--;
+    excluirJogo(jogos, &numDoJogo);
         break;
     case 3:
     editarJogo(jogos, numDoJogo);
         break;
     case 4:
-    personagens[numPersonagem] = cadastrarNovoPersonagem(); numPersonagem++;
+    listarJogos(jogos, numDoJogo);
+    printf("Digite o numero do jogo: ");
+    scanf("%d", &posJogo);
+    if(posJogo>0 &&posJogo<=numDoJogo);
+    {
+        jogos[posJogo-1].personagens[jogos[posJogo-1].numPersonagem] = cadastrarNovoPersonagem();
+        jogos[posJogo-1].numPersonagem++;
+    } if else {
+        printf("operacao invalida\n\n");
+    }
         break;
     case 5:
-    excluirPersonagem(personagens, numPersonagem); numPersonagem--;
+    excluirPersonagem(jogos, numDoJogo);
         break;
     case 6:
-    editarPersonagem(personagens, numPersonagem);
+    editarPersonagem(jogos, numDoJogo);
         break;
     case 7:
     listarJogos(jogos, numDoJogo);
         break;
     case 8:
-    listarPersonagem(personagens, numPersonagem);
+    listarPersonagem(jogos, numDoJogo);
         break;
-    case 9:
-
-        break;
-    
     default:
     printf("opcao invalida\n\n");
         break;
